@@ -1,5 +1,16 @@
 require('dotenv').config();
 const express = require('express');
+
+// Verificar variables críticas al inicio
+const requiredEnvVars = ['SUPABASE_URL', 'SUPABASE_SERVICE_ROLE_KEY', 'SUPABASE_ANON_KEY'];
+const missing = requiredEnvVars.filter(k => !process.env[k]);
+if (missing.length > 0) {
+  console.error('❌ Variables de entorno faltantes:', missing.join(', '));
+  console.error('   SUPABASE_URL:', process.env.SUPABASE_URL ? '✓ presente' : '✗ ausente');
+  console.error('   SUPABASE_ANON_KEY:', process.env.SUPABASE_ANON_KEY ? '✓ presente' : '✗ ausente');
+  console.error('   SUPABASE_SERVICE_ROLE_KEY:', process.env.SUPABASE_SERVICE_ROLE_KEY ? '✓ presente' : '✗ ausente');
+  process.exit(1);
+}
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
