@@ -50,6 +50,7 @@ app.use('/api/inventario',   require('./src/routes/inventario'));
 app.use('/api/reposicion',   require('./src/routes/ordenes'));
 app.use('/api/presupuesto',  require('./src/routes/presupuesto'));
 app.use('/api/ventas',       require('./src/routes/presupuesto'));
+app.use('/api/settings',     require('./src/routes/settings'));
 
 // 404
 app.use((req, res) => {
