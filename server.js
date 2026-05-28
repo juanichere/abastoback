@@ -21,9 +21,15 @@ const app = express();
 app.use(helmet());
 app.use(cors({
   origin: (origin, callback) => {
-    // Permitir cualquier localhost en desarrollo
-    if (!origin || origin.match(/^http:\/\/localhost:\d+$/)) return callback(null, true);
-    if (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL) return callback(null, true);
+    const allowed = [
+      'https://abastofront.vercel.app',
+      process.env.FRONTEND_URL,
+    ].filter(Boolean);
+    // Permitir localhost en desarrollo y dominios de Vercel
+    if (!origin) return callback(null, true);
+    if (origin.match(/^http:\/\/localhost:\d+$/)) return callback(null, true);
+    if (origin.match(/vercel\.app$/)) return callback(null, true);
+    if (allowed.includes(origin)) return callback(null, true);
     callback(new Error('Not allowed by CORS'));
   },
   credentials: true
